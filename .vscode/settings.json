@@ -1,20 +1,17 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-
   // ✅ Configuración específica del proyecto
   "[php]": {
     "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
   },
-
   // ✅ Asociaciones de archivos del proyecto
   "files.associations": {
     "*.blade.php": "blade"
   },
-
   // ✅ Exclusiones específicas del proyecto
   "files.exclude": {
-    "**/vendor": true,
-    "**/node_modules": true
+    // "**/vendor": true,
+    // "**/node_modules": true
   }
 }
