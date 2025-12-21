@@ -1,0 +1,19 @@
+.button {
+    padding: 5px 10px;
+    background-color: rgb(65, 65, 255);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 10px;
+    border: 2px;
+    border-radius: 3px;
+}
+
+.button:hover {
+    background-color: rgb(25, 25, 255);
+
+}
+
+.button:focus {
+    background-color: black;
+}
