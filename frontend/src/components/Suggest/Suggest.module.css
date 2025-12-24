@@ -1,0 +1,13 @@
+.suggest {
+    padding: 5px;
+    font-style: normal;
+    background-color: rgb(25, 173, 25);
+    color: white;
+}
+
+.suggest a {
+    font-style: italic;
+    color: rgb(32, 32, 218);
+    font-weight: bold;
+
+}
