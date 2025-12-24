@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { Title } from "../components/Title";
 import { Subtitle } from "../components/Subtitle";
 import { Suggest } from "../components/Suggest";
+import { RegisterForm } from "../components/forms/RegisterForm";
 
 export function Register(): JSX.Element {
     return (<>
@@ -11,6 +12,6 @@ export function Register(): JSX.Element {
         <Suggest>
             ¿Ya se encuentra registrado? <Link to="/" >Volver al home</Link>
         </Suggest>
-        <p>Bienvenido al registro</p>
+        <RegisterForm />
     </>)
 }
