@@ -10,6 +10,20 @@ interface contentRegisterForm {
   passwordConfirmed: string
 }
 
+async function submitData(dataForm: contentRegisterForm) {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/register", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataForm)
+    })
+
+    const data = await response.json();
+    console.log('Respuesta: ', data)
+  } catch (error) {
+    console.error('Error: ', error)
+  }
+}
 function validateData(data: contentRegisterForm, handleError: (newError: string | null) => void): boolean {
   if (data.name.trim().length === 0) {
     handleError("No se llenó el nombre")
@@ -49,7 +63,7 @@ export function RegisterForm(): JSX.Element {
     e.preventDefault()
     console.log("Submit Form...")
     if (!validateData(formData, handleError)) return
-
+    submitData(formData)
   }
 
   return (
@@ -65,6 +79,7 @@ export function RegisterForm(): JSX.Element {
             id="name"
             value={formData.name}
             onChange={handleChange}
+            placeholder="Juan Perez"
             required />
         </div>
         <div className="block-form">
@@ -75,6 +90,7 @@ export function RegisterForm(): JSX.Element {
             id="email"
             value={formData.email}
             onChange={handleChange}
+            placeholder="test@email.com"
             required />
         </div>
         <div className="block-form">
