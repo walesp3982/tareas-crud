@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProyectRequest;
+use App\Http\Resources\ProyectResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class ProyectController extends Controller
@@ -29,9 +32,23 @@ class ProyectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProyectRequest $request): JsonResponse
     {
         //
+        $validated = $request->validated();
+
+        $user = Auth::user();
+
+        $proyect = $user->proyects()->create([
+            "name" => $validated["name"],
+            "start_date" => $validated["start_date"],
+            "end_date" => $validated["end_date"]
+        ]);
+
+        return response()->json(
+            new ProyectResource($proyect),
+            201
+        );
     }
 
     /**
