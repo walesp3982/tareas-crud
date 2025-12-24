@@ -1,5 +1,5 @@
 import type React from 'react'
-import './Title.css'
+import styles from './Title.module.css'
 
 interface contentTitle {
     children: React.ReactNode
@@ -8,7 +8,7 @@ interface contentTitle {
 
 export function Title({ children }: contentTitle) {
     return (
-        <div className="title">
+        <div className={styles.title}>
             {children}
         </div>
     )

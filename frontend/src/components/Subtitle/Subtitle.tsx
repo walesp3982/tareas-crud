@@ -1,6 +1,6 @@
 import type React from "react";
 import type { JSX } from "react";
-import './Subtitle.css'
+import styles from './Subtitle.module.css'
 
 interface propsSubtitle {
     children: React.ReactNode
@@ -8,7 +8,7 @@ interface propsSubtitle {
 
 export function Subtitle({ children }: propsSubtitle): JSX.Element {
     return (<>
-        <div className="subtitle">
+        <div className={styles.subtitle}>
             {children}
         </div>
     </>)
