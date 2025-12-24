@@ -24,3 +24,10 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
+.error-form {
+    color: red;
+    background-color: yellow;
+    padding: 5px 10px;
+    font-style: italic;
+}
