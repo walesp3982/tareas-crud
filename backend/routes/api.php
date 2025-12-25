@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', action: [AuthController::class, 'login']);
 
+Route::post("/register", [AuthController::class, "register"]);
+
 Route::get('/test', function () {
     return response()->json(["msg" => "Hola"]);
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,15 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken($dataRequest['device_name'])->plainTextToken
         ]);
+    }
+
+    final public function register(RegisterUserRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        return response()->json(
+            User::create($validated)
+        );
     }
 
     final public function logout(): JsonResponse
