@@ -29,4 +29,18 @@ class RegisterUserRequest extends FormRequest
             "password_confirmation" => ["required", "string"]
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules
+     * @return array{string, string}
+     */
+    public function messages(): array
+    {
+        return [
+            "name.required" => "El campo de nombre es obligatorio",
+            "email.unique" => "El correo ya fue registrado",
+            "password.required" => "La campo de contraseña es obligatoria",
+            "password.confirmed" => "La contraseña y la password_confirmation requiren ser del mismo valor"
+        ];
+    }
 }
