@@ -9,7 +9,7 @@ interface dataRegister {
 }
 
 interface dataLogin {
-    name: string;
+    email: string;
     password: string;
 }
 
