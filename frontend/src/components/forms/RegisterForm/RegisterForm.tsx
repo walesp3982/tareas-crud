@@ -69,9 +69,11 @@ export function RegisterForm(): JSX.Element {
   return (
     <div className="container-form">
       <form method="POST" onSubmit={handleSubmit}>
-        <div className="error-form">
-          {error}
-        </div>
+        {error &&
+          <div className="error-form">
+            {error}
+          </div>
+        }
         <div className="block-form">
           <label htmlFor="name">Nombre</label>
           <input type="text"
