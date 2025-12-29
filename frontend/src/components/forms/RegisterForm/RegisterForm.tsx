@@ -1,74 +1,65 @@
 import type { JSX } from "react";
 import React, { useState } from "react";
-import '../forms.css'
 import { Button } from "../../Button";
+import { sendLogin, sendRegister, type dataRegister } from "../../../services/auth";
 
-interface contentRegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirmed: string
-}
+import '../forms.css'
+import { DEVICE_NAME } from "../../../config";
 
-async function submitData(dataForm: contentRegisterForm) {
-  try {
-    const response = await fetch("http://127.0.0.1:8000/api/register", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dataForm)
-    })
-
-    const data = await response.json();
-    console.log('Respuesta: ', data)
-  } catch (error) {
-    console.error('Error: ', error)
-  }
-}
-function validateData(data: contentRegisterForm, handleError: (newError: string | null) => void): boolean {
-  if (data.name.trim().length === 0) {
-    handleError("No se llenó el nombre")
-    return false
-  }
-  if (data.password != data.passwordConfirmed) {
-    handleError("La contraseña no coincide")
-    return false
-  }
-  if (data.email.trim().length === 0) {
-    handleError("No se llenó el email")
-    return false
-  }
-  handleError(null)
-  return true;
-}
 
 export function RegisterForm(): JSX.Element {
-  const [formData, setFormData] = useState<contentRegisterForm>({
+  const [formData, setFormData] = useState<dataRegister>({
     name: '',
     email: '',
     password: '',
-    passwordConfirmed: ''
+    password_confirmation: ''
   })
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null)
 
-  const handleError = (msg: string | null) => {
-    setError(msg)
-  }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log("Submit Form...")
-    if (!validateData(formData, handleError)) return
-    submitData(formData)
+    setLoading(true);
+    setError('');
+
+    try {
+      //console.log("Form data: ", formData)
+      await sendRegister(formData);
+      console.log("Respuesta obtenida")
+
+      const responseLogin = await sendLogin({
+        email: formData.email,
+        password: formData.password,
+        device_name: DEVICE_NAME
+      });
+
+      console.log(responseLogin.token)
+
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message)
+        console.log(err)
+      } else {
+        setError(String(err))
+        console.log(String(err))
+      }
+    } finally {
+      setLoading(false);
+    }
   }
+
+
 
   return (
     <div className="container-form">
-      <form method="POST" onSubmit={handleSubmit}>
+      <form method="POST" onSubmit={handleLogin}>
         {error &&
           <div className="error-form">
             {error}
@@ -106,17 +97,19 @@ export function RegisterForm(): JSX.Element {
             required />
         </div>
         <div className="block-form">
-          <label htmlFor="password_confirmed">Confirmar contraseña</label>
+          <label htmlFor="password_confirmation">Confirmar contraseña</label>
           <input
             type="password"
-            name="passwordConfirmed"
-            id="passwordConfirmed"
-            value={formData.passwordConfirmed}
+            name="password_confirmation"
+            id="password_confirmation"
+            value={formData.password_confirmation}
             onChange={handleChange}
             required />
         </div>
         <div>
-          <Button>Crear cuenta</Button>
+          <Button disabled={loading}>
+            {loading ? 'Cargando...' : "Iniciar Sesión"}
+          </Button>
         </div>
       </form>
     </div >

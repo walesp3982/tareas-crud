@@ -5,10 +5,8 @@ export const jsonRequest = (method: Method, data: object): RequestInit => {
         method: method,
         headers: {
             "Accept": "application/json",
-            "Content": "application/json",
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            data
-        })
+        body: JSON.stringify(data)
     }
 }
