@@ -16,14 +16,14 @@ export function RegisterForm(): JSX.Element {
   })
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string>("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log("Submit Form...")
     setLoading(true);
@@ -59,7 +59,7 @@ export function RegisterForm(): JSX.Element {
 
   return (
     <div className="container-form">
-      <form method="POST" onSubmit={handleLogin}>
+      <form method="POST" onSubmit={handleRegister}>
         {error &&
           <div className="error-form">
             {error}
@@ -108,7 +108,7 @@ export function RegisterForm(): JSX.Element {
         </div>
         <div>
           <Button disabled={loading}>
-            {loading ? 'Cargando...' : "Iniciar Sesión"}
+            {loading ? 'Cargando...' : "Registrar Usuario"}
           </Button>
         </div>
       </form>
