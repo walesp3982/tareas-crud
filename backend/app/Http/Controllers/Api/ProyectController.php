@@ -131,6 +131,7 @@ class ProyectController extends Controller
             );
         }
 
+        $proyect->delete();
         return response()->json(
             ["message" => "Proyecto eliminado"],
             204
