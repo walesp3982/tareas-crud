@@ -30,7 +30,6 @@ class UpdateProyectRequest extends FormRequest
                 Rule::date()->format("Y-m-d")
             ],
             'end_date' => [
-                'required',
                 'date',
                 Rule::date()->after('start_date'),
                 Rule::date()->format("Y-m-d")
