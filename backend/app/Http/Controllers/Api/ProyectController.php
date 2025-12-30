@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProyectRequest;
+use App\Http\Requests\UpdateProyectRequest;
 use App\Http\Resources\ProyectResource;
+use App\Models\Proyect;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Response;
 
 class ProyectController extends Controller
 {
@@ -37,7 +36,7 @@ class ProyectController extends Controller
         //
         $validated = $request->validated();
 
-        $user = Auth::user();
+        $user = auth()->user();
 
         $proyect = $user->proyects()->create([
             "name" => $validated["name"],
@@ -54,16 +53,60 @@ class ProyectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        //
+        // Get actual user
+        $proyect = Proyect::find($id);
+
+        if ($proyect === null) {
+            return response()->json(
+                ["message" => "Proyecto no encontrado"],
+                404
+            );
+        }
+
+        if ($proyect->user_id !== auth()->id()) {
+            return response()->json(
+                ["message" => "Proyecto no autorizado para el usuario"],
+                401
+            );
+        }
+
+        return response()->json(
+            new ProyectResource($proyect),
+            200
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProyectRequest $request, string $id)
     {
+        $proyect = Proyect::find($id);
+
+        if ($proyect === null) {
+            return response()->json(
+                ["message" => "No encontrado"],
+                404
+            );
+        }
+
+        if ($proyect->user_id != auth()->id()) {
+            return response()->json(
+                ["message" => "No tiene propiedad del proyecto"],
+                401
+            );
+        }
+
+        $proyect = $proyect->update(
+            $request->validated()
+        );
+
+        return response()->json(
+            ["message" => "Proyecto actualizado"],
+            204
+        );
         //
     }
 
@@ -72,6 +115,25 @@ class ProyectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $proyect = Proyect::find($id);
+
+        if ($proyect === null) {
+            return response()->json(
+                ["message" => "No encontrado"],
+                404
+            );
+        }
+
+        if ($proyect->user_id != auth()->id()) {
+            return response()->json(
+                ["message" => "No tiene propiedad del proyecto"],
+                401
+            );
+        }
+
+        return response()->json(
+            ["message" => "Proyecto eliminado"],
+            204
+        );
     }
 }
