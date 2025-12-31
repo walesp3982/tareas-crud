@@ -43,4 +43,9 @@ class Proyect extends Model
     {
         return $this->hasMany(Collaborator::class);
     }
+
+    public function tags()
+    {
+        return $this->hasMany(Tags::class);
+    }
 }
