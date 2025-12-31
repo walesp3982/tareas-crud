@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Proyect::class);
     }
+
+    public function collaborations()
+    {
+        return $this->hasMany(Collaborator::class);
+    }
 }
