@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PriorityTaskEnum;
 use App\Enums\StatusTaskEnum;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ class Task extends Model
         "status",
         "start_date",
         "end_date",
+        "priority",
         "proyect_id"
     ];
 
@@ -26,7 +28,8 @@ class Task extends Model
     public function casts(): array
     {
         return [
-            "status" => StatusTaskEnum::class
+            "status" => StatusTaskEnum::class,
+            "priority" => PriorityTaskEnum::class,
         ];
     }
 
