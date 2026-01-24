@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string("name");
             $table->enum("status", StatusTaskEnum::cases())
                 ->default(StatusTaskEnum::PENDING);
-            $table->date("start_date");
-            $table->date("end_date");
+            $table->date("start_date")->nullable();
+            $table->date("end_date")->nullable();
             $table->foreignId("proyect_id")->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -48,4 +48,9 @@ class Proyect extends Model
     {
         return $this->hasMany(Tags::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
