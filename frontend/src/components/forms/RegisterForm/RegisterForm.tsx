@@ -1,13 +1,16 @@
 import type { JSX } from "react";
 import React, { useState } from "react";
 import { Button } from "../../Button";
-import { sendLogin, sendRegister, type dataRegister } from "../../../services/auth";
+import { sendRegister, type dataRegister } from "../../../services/auth";
 
 import '../forms.css'
-import { DEVICE_NAME } from "../../../config";
 
 
-export function RegisterForm(): JSX.Element {
+interface propsRegisterForm {
+  onCorrectSubmit: () => void
+}
+
+export function RegisterForm({ onCorrectSubmit }: propsRegisterForm): JSX.Element {
   const [formData, setFormData] = useState<dataRegister>({
     name: '',
     email: '',
@@ -25,31 +28,22 @@ export function RegisterForm(): JSX.Element {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     console.log("Submit Form...")
+
     setLoading(true);
     setError('');
 
     try {
       //console.log("Form data: ", formData)
       await sendRegister(formData);
-      console.log("Respuesta obtenida")
-
-      const responseLogin = await sendLogin({
-        email: formData.email,
-        password: formData.password,
-        device_name: DEVICE_NAME
-      });
-
-      console.log(responseLogin.token)
-
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message)
-        console.log(err)
+      if (typeof err === "string") {
+        setError(err)
       } else {
-        setError(String(err))
-        console.log(String(err))
+        throw "No es tipo string el error"
       }
+      onCorrectSubmit()
     } finally {
       setLoading(false);
     }

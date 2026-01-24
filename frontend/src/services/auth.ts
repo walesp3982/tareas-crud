@@ -1,4 +1,4 @@
-import { getApiUrl } from "../config";
+import { DEVICE_NAME, getApiUrl } from "../config";
 import { jsonRequest } from "../utils/requests";
 
 export interface dataRegister {
@@ -26,7 +26,7 @@ export interface responseRegister {
     id: number;
 }
 
-export const sendRegister = async (data: dataRegister) => {
+export const fetchRegister = async (data: dataRegister) => {
     const urlApi = getApiUrl("register");
     const response = await fetch(urlApi, jsonRequest("POST", data));
 
@@ -39,7 +39,30 @@ export const sendRegister = async (data: dataRegister) => {
     return dataResponse as responseRegister
 }
 
-export const sendLogin = async (data: dataLogin) => {
+export const sendRegister = async (data: dataRegister) => {
+    console.log("Submit Form...")
+
+    try {
+        await fetchRegister(data);
+        console.log("Request Getting")
+
+        const responseLogin = await fetchLogin({
+            email: data.email,
+            password: data.password,
+            device_name: DEVICE_NAME
+        });
+
+        console.log(responseLogin.token)
+    } catch (err) {
+        if (err instanceof Error) {
+            throw err.message
+        } else {
+            throw String(err)
+        }
+    }
+}
+
+export const fetchLogin = async (data: dataLogin) => {
     const urlApi = getApiUrl("login");
     const response = await fetch(urlApi, jsonRequest("POST", data));
 

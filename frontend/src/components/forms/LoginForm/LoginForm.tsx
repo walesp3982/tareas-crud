@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../../Button";
 import '../forms.css'
-import { sendLogin, type dataLogin } from "../../../services/auth";
+import { fetchLogin, type dataLogin } from "../../../services/auth";
 
 export function LoginForm() {
   const [formData, setFormData] = useState<dataLogin>({
@@ -23,7 +23,7 @@ export function LoginForm() {
     setLoading(true);
     setError("");
     try {
-      const data = await sendLogin(formData);
+      const data = await fetchLogin(formData);
       console.log(data.token);
     }
     catch (err) {
