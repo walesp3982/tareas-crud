@@ -35,9 +35,9 @@ class AuthController extends Controller
     final public function register(RegisterUserRequest $request): JsonResponse
     {
         $validated = $request->validated();
-
+        $user = User::create($validated);
         return response()->json(
-            User::create($validated)
+            ['token' => $user->createToken($validated['device_name'])->plainTextToken]
         );
     }
 

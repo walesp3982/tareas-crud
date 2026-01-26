@@ -26,7 +26,8 @@ class RegisterUserRequest extends FormRequest
             "name" => ["required", "string"],
             "email" => ["required", "email", "unique:users,email"],
             "password" => ["required", "string", "confirmed"],
-            "password_confirmation" => ["required", "string"]
+            "password_confirmation" => ["required", "string"],
+            'device_name' => ["required", "string"],
         ];
     }
 
@@ -40,7 +41,8 @@ class RegisterUserRequest extends FormRequest
             "name.required" => "El campo de nombre es obligatorio",
             "email.unique" => "El correo ya fue registrado",
             "password.required" => "La campo de contraseña es obligatoria",
-            "password.confirmed" => "La contraseña y la password_confirmation requiren ser del mismo valor"
+            "password.confirmed" => "La contraseña y la password_confirmation requiren ser del mismo valor",
+            "device_name" => "Se tiene que ingresar el nombre del servicio de donde proviene el registro"
         ];
     }
 }
