@@ -1,20 +1,12 @@
 // import { useState } from 'react'
 import './App.css'
-import Home from './pages/Home'
-import { BrowserRouter, Routes, Route } from 'react-router'
-import { Register } from './pages/Register'
+import { router } from "./router"
+import { RouterProvider } from 'react-router'
+
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <RouterProvider router={router} />
   )
 }
 
