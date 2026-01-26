@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "../../Button";
 import '../forms.css'
-import { fetchLogin, type dataLogin } from "../../../services/auth";
+import { Auth, type dataLogin } from "../../../services/auth";
 
 export function LoginForm() {
   const [formData, setFormData] = useState<dataLogin>({
-    device_name: "web",
     email: "",
     password: "",
   })
@@ -23,8 +22,7 @@ export function LoginForm() {
     setLoading(true);
     setError("");
     try {
-      const data = await fetchLogin(formData);
-      console.log(data.token);
+      await Auth.login(formData);
     }
     catch (err) {
       if (err instanceof Error) {

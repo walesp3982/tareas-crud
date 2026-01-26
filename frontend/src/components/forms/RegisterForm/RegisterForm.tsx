@@ -1,7 +1,7 @@
 import type { JSX } from "react";
 import React, { useState } from "react";
 import { Button } from "../../Button";
-import { sendRegister, type dataRegister } from "../../../services/auth";
+import { Auth, type dataRegister } from "../../../services/auth";
 
 import '../forms.css'
 
@@ -36,7 +36,7 @@ export function RegisterForm({ onCorrectSubmit }: propsRegisterForm): JSX.Elemen
 
     try {
       //console.log("Form data: ", formData)
-      await sendRegister(formData);
+      await Auth.register(formData);
     } catch (err) {
       if (typeof err === "string") {
         setError(err)
