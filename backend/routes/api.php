@@ -18,6 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::post('/validate', function () {
+        return response()->json(["message" => "Token Validate"]);
+    });
     Route::apiResource('/proyects', ProyectController::class);
     Route::apiResource('/proyects/{proyect_id}/tasks', TaskController::class);
 });
