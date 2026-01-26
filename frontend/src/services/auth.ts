@@ -1,6 +1,86 @@
 import { DEVICE_NAME, getApiUrl } from "../config";
-import { jsonRequest } from "../utils/requests";
+import { jsonRequest, jsonRequestAuth } from "../utils/requests";
 
+
+export class Auth {
+    static async fetchRegister(data: dataRegister): Promise<responseAuth> {
+        const urlApi = getApiUrl("register");
+
+        const jsonData = { ...data, device_name: DEVICE_NAME }
+        const response = await fetch(urlApi, jsonRequest("POST", jsonData));
+
+        const dataResponse = await response.json();
+
+        if (!response.ok) {
+            throw new Error(dataResponse.message || "Register'error")
+        }
+
+        return dataResponse as responseAuth
+    }
+
+    static async fetchLogin(data: dataLogin): Promise<responseAuth> {
+        const urlApi = getApiUrl("login");
+
+        const jsonData = { ...data, device_name: DEVICE_NAME }
+        const response = await fetch(urlApi, jsonRequest("POST", jsonData))
+
+        const dataResponse = await response.json();
+
+        if (!response.ok) {
+            throw new Error(dataResponse.message || "Login'error")
+        }
+
+        return dataResponse as responseAuth
+    }
+
+    static async fetchLogout(): Promise<responseLogout> {
+        const urlApi = getApiUrl("logout");
+
+        const response = await fetch(urlApi, jsonRequestAuth("POST"))
+
+        if (!response.ok) {
+            throw new Error("Error en el logout")
+        }
+
+        const dataResponse = await response.json() as responseLogout
+
+        removeTokenAuth()
+        return dataResponse
+    }
+
+    static async register(data: dataRegister): Promise<void> {
+        console.log("Submit Form...")
+
+        try {
+            const response = await this.fetchRegister(data)
+            console.log("Register successful")
+
+            setTokenAuth(response.token)
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err.message
+            } else {
+                throw String(err)
+            }
+        }
+    }
+
+    static async login(data: dataLogin): Promise<void> {
+        console.log("Logging")
+
+        try {
+            const response = await this.fetchLogin(data)
+
+            setTokenAuth(response.token)
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err.message
+            } else {
+                throw String(err)
+            }
+        }
+    }
+}
 export interface dataRegister {
     name: string;
     email: string;
@@ -11,65 +91,24 @@ export interface dataRegister {
 export interface dataLogin {
     email: string;
     password: string;
-    device_name: string;
 }
 
-export interface responseLogin {
-    token: string;
+export interface responseAuth {
+    token: string
 }
 
-export interface responseRegister {
-    name: string;
-    email: string;
-    updated_at: string;
-    created_at: string;
-    id: number;
+export interface responseLogout {
+    message: string
 }
 
-export const fetchRegister = async (data: dataRegister) => {
-    const urlApi = getApiUrl("register");
-    const response = await fetch(urlApi, jsonRequest("POST", data));
-
-    const dataResponse = await response.json();
-
-    if (!response.ok) {
-        throw new Error(dataResponse.message || "Error en el registro!")
-    }
-
-    return dataResponse as responseRegister
+const setTokenAuth = (token: string) => {
+    localStorage.setItem("token", token);
 }
 
-export const sendRegister = async (data: dataRegister) => {
-    console.log("Submit Form...")
-
-    try {
-        await fetchRegister(data);
-        console.log("Request Getting")
-
-        const responseLogin = await fetchLogin({
-            email: data.email,
-            password: data.password,
-            device_name: DEVICE_NAME
-        });
-
-        console.log(responseLogin.token)
-    } catch (err) {
-        if (err instanceof Error) {
-            throw err.message
-        } else {
-            throw String(err)
-        }
-    }
+export const getTokenAuth = (): string | null => {
+    return localStorage.getItem("token")
 }
 
-export const fetchLogin = async (data: dataLogin) => {
-    const urlApi = getApiUrl("login");
-    const response = await fetch(urlApi, jsonRequest("POST", data));
-
-    const dataResponse = await response.json();
-    if (!response.ok) {
-        throw new Error(dataResponse.message || "Error en el login")
-    }
-
-    return dataResponse as responseLogin
+const removeTokenAuth = () => {
+    localStorage.removeItem("token")
 }
