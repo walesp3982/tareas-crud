@@ -4,13 +4,10 @@ import { Button } from "../../Button";
 import { Auth, type dataRegister } from "../../../services/auth";
 
 import '../forms.css'
+import { useNavigate } from "react-router-dom";
 
 
-interface propsRegisterForm {
-  onCorrectSubmit: () => void
-}
-
-export function RegisterForm({ onCorrectSubmit }: propsRegisterForm): JSX.Element {
+export function RegisterForm(): JSX.Element {
   const [formData, setFormData] = useState<dataRegister>({
     name: '',
     email: '',
@@ -20,6 +17,7 @@ export function RegisterForm({ onCorrectSubmit }: propsRegisterForm): JSX.Elemen
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("")
+  const navigate = useNavigate()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -37,13 +35,13 @@ export function RegisterForm({ onCorrectSubmit }: propsRegisterForm): JSX.Elemen
     try {
       //console.log("Form data: ", formData)
       await Auth.register(formData);
+      navigate("/app")
     } catch (err) {
       if (typeof err === "string") {
         setError(err)
       } else {
         throw "No es tipo string el error"
       }
-      onCorrectSubmit()
     } finally {
       setLoading(false);
     }

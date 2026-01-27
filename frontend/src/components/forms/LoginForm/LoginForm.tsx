@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../../Button";
 import '../forms.css'
 import { Auth, type dataLogin } from "../../../services/auth";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
   const [formData, setFormData] = useState<dataLogin>({
@@ -10,6 +11,7 @@ export function LoginForm() {
   })
   const [error, setError] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,11 +25,11 @@ export function LoginForm() {
     setError("");
     try {
       await Auth.login(formData);
+      navigate("/app")
     }
     catch (err) {
-      if (err instanceof Error) {
-        console.log("Error: ", err.message)
-        setError(err.message);
+      if (typeof err === "string") {
+        setError(err);
       }
     } finally {
       setLoading(false);
