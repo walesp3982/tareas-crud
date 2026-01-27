@@ -43,8 +43,6 @@ export class Auth {
         }
 
         const dataResponse = await response.json() as responseLogout
-
-        removeTokenAuth()
         return dataResponse
     }
 
@@ -80,6 +78,18 @@ export class Auth {
             }
         }
     }
+
+    static async logout(): Promise<void> {
+        try {
+            const response = await this.fetchLogout();
+            console.log(response.message)
+
+            removeTokenAuth()
+            sessionStorage.clear()
+        } catch {
+            console.log("Algo sucedió")
+        }
+    }
 }
 export interface dataRegister {
     name: string;
@@ -109,6 +119,17 @@ export const getTokenAuth = (): string | null => {
     return localStorage.getItem("token")
 }
 
-const removeTokenAuth = () => {
+export const removeTokenAuth = () => {
     localStorage.removeItem("token")
+}
+
+export const validateToken = async () => {
+    const url = getApiUrl("validate");
+
+    const response = await fetch(url, jsonRequestAuth("POST"))
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message)
+    }
 }
