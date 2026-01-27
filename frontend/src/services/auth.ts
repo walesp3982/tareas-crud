@@ -27,7 +27,10 @@ export class Auth {
         const dataResponse = await response.json();
 
         if (!response.ok) {
-            throw new Error(dataResponse.message || "Login'error")
+            if (response.status === 401) {
+                throw new Error("Error en las credenciales. Verifica tu email y contraseña")
+            }
+            throw new Error("Error en el servidor")
         }
 
         return dataResponse as responseAuth
