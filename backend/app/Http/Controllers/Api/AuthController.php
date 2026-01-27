@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($dataRequest['password'], $user->password)) {
             return response()->json([
-                "message" => "La credenciales son incorrectas",
+                "message" => "Las credenciales son incorrectas",
                 "errors" => [
                     "email" => ["Las credenciales son incorrectas"]
                 ]
