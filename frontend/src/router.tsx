@@ -1,11 +1,11 @@
 import { Login } from './pages/Login'
-import { createBrowserRouter, type LoaderFunctionArgs } from 'react-router'
+import { createBrowserRouter } from 'react-router'
 import { Register } from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
 import { Layout } from './layouts/Guest'
 import { App } from './layouts/App'
 import { redirect } from 'react-router'
-import { getTokenAuth, validateToken } from './services/auth'
+import { getTokenAuth, removeTokenAuth, validateToken } from './services/auth'
 
 
 export const router = createBrowserRouter([
@@ -35,24 +35,26 @@ export const router = createBrowserRouter([
     {
         path: "app",
         Component: App,
-        loader: protectedLoader,
+        loader: async () => {
+            await requireAuth()
+            return null
+        },
         children: [
             { index: true, Component: Dashboard },
         ]
     }
 ])
 
-async function requireAuth(request: Request) {
+async function requireAuth() {
     const token = getTokenAuth();
-
     if (!token) {
-        const url = new URL(request.url)
-        throw redirect(`/?from=${url.pathname}`)
+        throw redirect("/")
     }
 
     try {
         await validateToken()
     } catch {
+        removeTokenAuth()
         throw redirect("/")
     }
 }
@@ -66,8 +68,3 @@ async function requireGuest() {
 
     return null
 }
-async function protectedLoader({ request }: LoaderFunctionArgs) {
-    await requireAuth(request)
-}
-
-
