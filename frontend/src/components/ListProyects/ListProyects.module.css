@@ -1,0 +1,138 @@
+.proyect-list {
+    border: 2px solid rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    padding: 10px 10px;
+    background-color: green;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.proyect-elem {
+    background-color: rgb(22, 161, 22);
+    padding: 10px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.proyect-elem:hover {
+    background-color: rgb(28, 200, 28);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.proyect-elem:focus,
+.proyect-elem:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.proyect-elem:active {
+    background-color: rgb(18, 130, 18);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+}
+
+.tag {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
+    user-select: none;
+}
+
+.tag:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.tag:focus,
+.tag:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.3);
+    outline-offset: 2px;
+}
+
+.tag:active {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
+}
+
+.tag.current {
+    background-color: yellow;
+    color: rgb(84, 65, 65);
+}
+
+.tag.current:hover {
+    background-color: #ffff00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.tag.current:active {
+    background-color: #e6e600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
+}
+
+.tag.future {
+    background-color: greenyellow;
+    color: rgb(84, 65, 65);
+}
+
+.tag.future:hover {
+    background-color: #adff2f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.tag.future:active {
+    background-color: #9be31b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
+}
+
+.tag.passed {
+    background-color: red;
+    color: white;
+}
+
+.tag.passed:hover {
+    background-color: #ff3333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.tag.passed:active {
+    background-color: #cc0000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
+}
