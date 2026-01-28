@@ -1,0 +1,61 @@
+.refreshButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 10px;
+    background-color: rgb(65, 65, 255);
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(65, 65, 255, 0.3);
+}
+
+.refreshButton:hover:not(:disabled) {
+    background-color: rgb(25, 25, 255);
+    box-shadow: 0 4px 12px rgba(25, 25, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.refreshButton:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(25, 25, 255, 0.2);
+}
+
+.refreshButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: rgb(100, 100, 150);
+}
+
+.refreshButton:focus {
+    outline: 2px solid rgb(25, 25, 255);
+    outline-offset: 2px;
+}
+
+.icon {
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+.icon.spinning {
+    animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    transform-origin: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
