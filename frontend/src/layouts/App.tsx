@@ -3,6 +3,7 @@ import { Title } from "../components/Title";
 import { NavLink, Outlet } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "../services/auth";
+import './App.css'
 
 export const App = (): JSX.Element => {
 
