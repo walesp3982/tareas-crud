@@ -19,13 +19,21 @@ export const jsonRequestAuth = (method: Method, data: object | null = null): Req
 
     if (token === null) throw new Error("No se encontró el token")
 
-    return {
+    let request: RequestInit = {
         method: method,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(data)
     }
+
+    if (method != "GET") {
+        request = {
+            ...request,
+            body: JSON.stringify(data)
+        }
+    }
+
+    return request
 }
