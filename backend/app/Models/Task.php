@@ -17,7 +17,9 @@ class Task extends Model
         "start_date",
         "end_date",
         "priority",
-        "proyect_id"
+        "proyect_id",
+        "created_at",
+        "deleted_at"
     ];
 
     /**

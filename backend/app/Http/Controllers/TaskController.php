@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateProyectRequest;
 use App\Models\Proyect;
 use Exception;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -20,9 +21,22 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(int $proyect_id)
+    public function index(int $proyect_id, Request $request)
     {
+        $params = $request->validate([
+            "orderBy" => "nullable|string",
+        ]);
+
         $proyect = $this->getProyect($proyect_id);
+
+        $task = $proyect->tasks();
+
+        if ($params["orderBy"] === "created_at") {
+            $task = $task->orderBy("created_at");
+        } else if ($params["orderBy"] === "end_date") {
+            $task = $task->orderBy("end_date");
+        }
+
 
         return response()->json($proyect->tasks, 200);
     }
