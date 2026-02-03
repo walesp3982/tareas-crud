@@ -2,6 +2,7 @@ import type { JSX } from "react";
 import { ProyectService, stringProyectStatus, type Proyect } from "../../services/proyect";
 import styles from "./ListProyects.module.css"
 import { getOnlyDate } from "../../utils/times";
+import { useNavigate } from "react-router";
 interface propsListProyects {
     proyects: Proyect[]
 }
@@ -45,11 +46,11 @@ export const TagStatusProyect = ({ proyect }: propsProyectElement): JSX.Element 
 }
 export const ProyectElement = ({ proyect }: propsProyectElement): JSX.Element => {
     const dayCreation = daysAfter(proyect.created_at)
-
+    const navigate = useNavigate()
     // TODO: create router to onclick to page to proyect
 
     const onClickGoProyect = () => {
-        alert("hola desde el proyecto con id " + proyect.id)
+        navigate(`/app/proyects/${proyect.id}`)
     }
     return (
         <div className={styles['proyect-elem']} onClick={onClickGoProyect}>

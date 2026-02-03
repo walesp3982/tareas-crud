@@ -5,9 +5,19 @@ import { RefreshButton } from "../components/RefreshButton";
 import { ProyectService, type Proyect } from "../services/proyect";
 
 
-export function Dashboard():
 
-    JSX.Element {
+function Comment(): JSX.Element {
+    return <div>
+
+    </div>
+}
+
+function Task(): JSX.Element {
+    return <div>
+
+    </div>
+}
+export function Dashboard(): JSX.Element {
 
     const [loading, setLoading] = useState(false);
 

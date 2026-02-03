@@ -83,4 +83,24 @@ export class ProyectService {
             throw new Error(String(err))
         }
     }
+
+    static async getProyect(proyectId: number): Promise<Proyect> {
+        const url = getApiUrl(`proyects/${proyectId}`)
+
+        try {
+            const response = await fetch(url, jsonRequestAuth("GET"))
+
+            if (!response.ok) {
+                throw new Error("No se puede obtener el proyecto. Error " + response.status)
+            }
+            const data = await response.json() as Proyect
+
+            return data
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err
+            }
+            throw new Error(String(err))
+        }
+    }
 }
