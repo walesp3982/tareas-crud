@@ -1,11 +1,12 @@
 import { Login } from './pages/Login'
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, type LoaderFunctionArgs } from 'react-router'
 import { Register } from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
 import { Layout } from './layouts/Guest'
 import { App } from './layouts/App'
 import { redirect } from 'react-router'
 import { getTokenAuth, removeTokenAuth, validateToken } from './services/auth'
+import { InfoProyect } from './pages/InfoProyect'
 
 
 export const router = createBrowserRouter([
@@ -41,6 +42,14 @@ export const router = createBrowserRouter([
         },
         children: [
             { index: true, Component: Dashboard },
+            {
+                path: "proyects/:proyectId",
+                loader: async ({ params }: LoaderFunctionArgs) => {
+                    const proyectId = params.proyectId
+                    return { proyectId: proyectId }
+                },
+                Component: InfoProyect
+            }
         ]
     }
 ])
